@@ -26,7 +26,7 @@ const uploadImage = async (formData) => {
     const token = localStorage.getItem("token");
     const response = await api.post("/dibujos", formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         // Incluir el token en el header Authorization
         Authorization: `Bearer ${token}`,
       },

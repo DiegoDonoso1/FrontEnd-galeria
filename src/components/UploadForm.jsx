@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { uploadImage } from "../services/GalleryService";
 import { useNavigate } from "react-router-dom";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import app from "../firebase/firebase"; // Asegúrate de que la ruta sea correcta
 
 export function UploadForm() {
   const [name, setName] = useState("");
@@ -46,6 +48,13 @@ export function UploadForm() {
     }
   };
 
+  const uploadImageToFirebase = async (file) => {
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `images/${file.name}`);
+    await uploadBytes(storageRef, file);
+    return getDownloadURL(storageRef);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -58,16 +67,19 @@ export function UploadForm() {
       if (!file) setFileError("Por favor, selecciona un archivo para subir.");
       return;
     }
-
-    // Crear un objeto FormData y añadir los campos del formulario
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("description", description);
-    formData.append("file", file);
+    const imgUrl = await uploadImageToFirebase(file);
+    console.log("Imagen subida con éxito, URL:", imgUrl);
+    const itemData = {
+      name,
+      description,
+      imgUrl, // Usa la URL de Firebase aquí
+    };
 
     // Llamar al servicio uploadImage
     try {
-      const result = await uploadImage(formData);
+      console.log(itemData);
+      const result = await uploadImage(itemData);
+
       alert("Imagen subida con éxito: " + result);
       navigate("/");
       // Limpiar el formulario

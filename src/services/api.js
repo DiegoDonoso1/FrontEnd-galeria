@@ -1,8 +1,5 @@
 import axios from "axios";
-
-//TODO: cambiar a env
-const API_URL = process.env.REACT_APP_API_URL;
-
+const API_URL = "https://exalted-crane-405616.rj.r.appspot.com/";
 const api = axios.create({
   baseURL: API_URL,
   headers: {

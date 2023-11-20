@@ -20,14 +20,23 @@ export default function ImageDetailPage() {
   }, [id]);
   return (
     <div className="pt-14 flex flex-col md:flex-row container mx-auto items-center justify-center h-full px-4">
-      <img
-        className="max-h-[60vh] md:max-h-[80vh] object-contain mb-4 md:mb-0 md:mr-8 w-full md:w-1/2"
-        src={`http://localhost:3000/${image.imgUrl}`}
-        alt={image.name}
-      />
+      {
+        <img
+          className="max-h-[60vh] md:max-h-[80vh] object-contain mb-4 md:mb-0 md:mr-8 w-full md:w-1/2"
+          src={`${image.imgUrl}`}
+          alt={image.name}
+        />
+      }
       <div className="w-full md:w-1/3 text-center md:text-left">
         <h2 className="text-2xl font-bold mb-3">{image.name}</h2>
         <p className="text-lg">{image.description}</p>
+        <a
+          href={image.imgUrl}
+          download
+          className="text-[#6A64F1] hover:text-blue-800 text-lg"
+        >
+          <i className="fas fa-download pt-4"></i> Descargar Imagen
+        </a>
       </div>
     </div>
   );
