@@ -19,7 +19,7 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
       {images.map((image) => (
         <Link key={image._id} to={`/dibujo/${image._id}`}>
           <ImageCard image={image} />

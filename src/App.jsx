@@ -8,6 +8,7 @@ import { PrivateRoute } from "./components/PrivateRoute";
 import ImageDetailPage from "./pages/ImageDetailPage";
 import LoginForm from "./components/LoginForm";
 import { jwtDecode } from "jwt-decode";
+import Footer from "./components/Footer";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -72,6 +73,7 @@ function App() {
             element={<LoginForm onLoginSuccess={handleLoginSuccess} />}
           />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   );
