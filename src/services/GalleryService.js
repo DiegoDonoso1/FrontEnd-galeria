@@ -38,4 +38,19 @@ const uploadImage = async (formData) => {
   }
 };
 
-export { getImages, getImage, uploadImage };
+const deleteImage = async (imageId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await api.delete(`/dibujos/${imageId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar la imagen:", error.response.data);
+    throw error;
+  }
+};
+
+export { getImages, getImage, uploadImage, deleteImage };

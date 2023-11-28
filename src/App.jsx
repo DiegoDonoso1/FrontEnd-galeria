@@ -58,7 +58,10 @@ function App() {
         />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/dibujo/:id" element={<ImageDetailPage />} />
+          <Route
+            path="/dibujo/:id"
+            element={<ImageDetailPage isAuthenticated={isAuthenticated} />}
+          />
           <Route
             path="/form"
             element={
