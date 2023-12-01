@@ -53,4 +53,15 @@ const deleteImage = async (imageId) => {
   }
 };
 
-export { getImages, getImage, uploadImage, deleteImage };
+const getRandomLyrics = async () => {
+  try {
+    // Suponiendo que tienes un endpoint '/canciones/frase-aleatoria' en tu backend
+    const response = await api.get("/canciones");
+    return response.data; // Devuelve la letra obtenida
+  } catch (error) {
+    console.error("Error al obtener la frase aleatoria:", error);
+    throw error;
+  }
+};
+
+export { getImages, getImage, uploadImage, deleteImage, getRandomLyrics };

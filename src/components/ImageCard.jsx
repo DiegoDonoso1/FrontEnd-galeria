@@ -4,6 +4,7 @@ import LazyLoad from "react-lazy-load";
 export default function ImageCard({ image }) {
   // eslint-disable-next-line react/prop-types
   const fullImageUrl = `${image.imgUrl}`;
+
   return (
     <div className="grid gap-4">
       <LazyLoad>
