@@ -82,6 +82,14 @@ export default function Navbar({ isAuthenticated, username, onLogout }) {
                     </span>
                   </div>
                 </li>
+                <li className="order-1 md:order-none mb-2">
+                  <Link
+                    to="/calendario"
+                    className="text-[#6A64F1] hover:text-blue-800"
+                  >
+                    Calendario
+                  </Link>
+                </li>
                 <li className="order-3 md:order-none">
                   <button
                     onClick={onLogout}
@@ -109,6 +117,14 @@ export default function Navbar({ isAuthenticated, username, onLogout }) {
                     className="text-[#6A64F1] hover:text-blue-800"
                   >
                     Iniciar Sesión
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/calendario"
+                    className="text-[#6A64F1] hover:text-blue-800"
+                  >
+                    Calendario
                   </Link>
                 </li>
               </>

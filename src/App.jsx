@@ -9,6 +9,8 @@ import ImageDetailPage from "./pages/ImageDetailPage";
 import LoginForm from "./components/LoginForm";
 import { jwtDecode } from "jwt-decode";
 import Footer from "./components/Footer";
+import Calendar from "./pages/Calendar";
+import { UploadFormCalendar } from "./components/uploadFormCalendar";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -71,9 +73,23 @@ function App() {
               />
             }
           />
+
+          <Route
+            path="/formCalendar"
+            element={
+              <PrivateRoute
+                isAuthenticated={isAuthenticated}
+                element={<UploadFormCalendar />}
+              />
+            }
+          />
           <Route
             path="/login"
             element={<LoginForm onLoginSuccess={handleLoginSuccess} />}
+          />
+          <Route
+            path="/calendario"
+            element={<Calendar username={username} />}
           />
         </Routes>
         <Footer />

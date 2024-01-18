@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://exalted-crane-405616.rj.r.appspot.com/";
+const API_URL = "http://localhost:3000/";
 const api = axios.create({
   baseURL: API_URL,
   headers: {

@@ -4,7 +4,7 @@ export default function Toast({ message, onClose }) {
 
   return (
     <div className="fixed inset-x-0 bottom-4 flex justify-center items-center">
-      <div className="bg-green-500 text-white py-2 px-4 rounded flex items-center">
+      <div className="bg-purple-300 font-semibold text-white py-3 px-4 rounded flex items-center">
         {message}
         <button onClick={onClose} className="ml-4 text-lg">
           &times;

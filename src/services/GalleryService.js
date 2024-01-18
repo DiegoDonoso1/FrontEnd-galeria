@@ -53,6 +53,48 @@ const deleteImage = async (imageId) => {
   }
 };
 
+const getDay = async (day) => {
+  try {
+    const response = await api.get(`/calendario/${day}`);
+
+    // Verificar si response.data no es undefined
+    if (response.data) {
+      return response.data;
+    } else {
+      // Manejar el caso donde response.data es undefined
+      console.warn("La respuesta no tiene datos:", response);
+      return null;
+    }
+  } catch (error) {
+    // Manejar errores de red u otros errores
+    if (error.response && error.response.status === 404) {
+      console.warn(`No se encontraron datos para el día ${day}`);
+      return null;
+    } else {
+      console.error("Error al obtener el día:", error);
+      throw error;
+    }
+  }
+};
+
+const uploadCalendar = async (formData) => {
+  try {
+    // Obtener el token JWT del localStorage
+    const token = localStorage.getItem("token");
+    const response = await api.post("/calendario", formData, {
+      headers: {
+        "Content-Type": "application/json",
+        // Incluir el token en el header Authorization
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error al subir la imagen:", error.response.data);
+    throw error;
+  }
+};
+
 const getRandomLyrics = async () => {
   try {
     // Suponiendo que tienes un endpoint '/canciones/frase-aleatoria' en tu backend
@@ -64,4 +106,12 @@ const getRandomLyrics = async () => {
   }
 };
 
-export { getImages, getImage, uploadImage, deleteImage, getRandomLyrics };
+export {
+  getImages,
+  getImage,
+  uploadImage,
+  deleteImage,
+  getRandomLyrics,
+  getDay,
+  uploadCalendar,
+};
