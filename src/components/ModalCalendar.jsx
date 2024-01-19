@@ -23,9 +23,7 @@ export default function Modal({ isOpen, onClose, dayDetails }) {
           alt={dayDetails.title}
           className="w-4/6 rounded-md mb-2 mx-auto"
         />
-        <p className="text-gray-700 text-center">
-          {dayDetails.description} lorem
-        </p>
+        <p className="text-gray-700 text-center">{dayDetails.description}</p>
       </div>
     </div>
   );
