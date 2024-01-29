@@ -104,21 +104,39 @@ export default function Calendar(username) {
 
   const renderDays = (start, end) => {
     const days = [];
+    const currentMonth = today.getMonth();
+    const currentYear = today.getFullYear();
 
-    for (let i = start; i < end; i++) {
-      const nextDay = new Date(today);
-      nextDay.setDate(today.getDate() + i);
+    let startDay;
+    let endDay;
+
+    if (currentMonth === 0) {
+      // Enero
+      startDay = start; // Comienza en el día que se pasa como argumento
+      endDay = end; // Termina en el día que se pasa como argumento
+    } else if (currentMonth === 1) {
+      // Febrero
+      startDay = start; // Comienza en el día que se pasa como argumento
+      endDay = end; // Termina en el día que se pasa como argumento
+    } else {
+      // Otros meses
+      startDay = 1; // Comienza en el día 1
+      endDay = new Date(currentYear, currentMonth + 1, 0).getDate(); // Termina en el último día del mes
+    }
+
+    for (let i = startDay; i <= endDay; i++) {
+      const nextDay = new Date(currentYear, currentMonth, i);
 
       days.push(
         <div
-          key={i + 1}
+          key={i}
           onClick={() => handleDayClick(nextDay)}
           className={`border border-pink-100 text-center cursor-pointer p-4 sm:p-8 rounded overflow-hidden relative group ${
-            diasAbiertos.includes(nextDay.getDate()) ? "bg-purple-200" : ""
-          } ${nextDay.getDate() === clickedDay ? "bg-blue-100" : ""}`}
+            diasAbiertos.includes(i) ? "bg-purple-200" : ""
+          } ${i === clickedDay ? "bg-blue-100" : ""}`}
         >
           <div className="flex items-center justify-center text-gray-600">
-            {nextDay.getDate()}
+            {i}
           </div>
         </div>
       );
@@ -128,11 +146,11 @@ export default function Calendar(username) {
   };
 
   const renderMobileCalendar = () => {
-    // Rango de fechas para la primera mitad (enero hasta el 31)
-    const firstHalfDays = renderDays(0, 14);
+    // Rango de fechas para la primera mitad (enero del 18 al 31)
+    const firstHalfDays = renderDays(18, 31);
 
-    // Rango de fechas para la segunda mitad (febrero hasta el 17)
-    const secondHalfDays = renderDays(14, 31);
+    // Rango de fechas para la segunda mitad (febrero del 1 al 17)
+    const secondHalfDays = renderDays(1, 17);
 
     return (
       <div>
