@@ -147,7 +147,7 @@ export default function Calendar(username) {
 
   const renderMobileCalendar = () => {
     // Rango de fechas para la primera mitad (enero del 18 al 31)
-    const firstHalfDays = renderDays(18, 31);
+    const firstHalfDays = renderDays(19, 31);
 
     // Rango de fechas para la segunda mitad (febrero del 1 al 17)
     const secondHalfDays = renderDays(1, 17);
