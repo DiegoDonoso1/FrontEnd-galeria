@@ -35,58 +35,45 @@ export default function Calendar(username) {
   const isMobile = window.innerWidth <= 768; // Ajusta según tus necesidades
 
   const handleDayClick = async (selectedDate) => {
-    const currentMonth = today.getMonth() + 1;
+    const selectedMonth = selectedDate.getMonth() + 1;
     const selectedDay = selectedDate.getDate();
 
-    // Verificar que el día esté dentro del mes actual y sea pasado o igual al día actual
-    if (
-      selectedDate.getMonth() + 1 === currentMonth &&
-      selectedDay <= today.getDate()
-    ) {
-      try {
-        // Obtener los detalles del evento
-        const eventDetails = await getDay(selectedDay);
-        if (eventDetails !== null) {
-          // Mostrar los detalles del evento en el modal
-          setClickedDay(selectedDay);
-          setModalDayDetails({
-            title: `Día ${selectedDay} de ${getMonthFromDate(selectedDate)}`,
-            imagePath: eventDetails.data.imagePath || "url_default_imagen",
-            description:
-              eventDetails.data.description || "Descripción por defecto",
-          });
-          openModal();
+    // Obtener los detalles del evento
+    try {
+      const eventDetails = await getDay(selectedDay, selectedMonth); // Pasamos el mes seleccionado
+      if (eventDetails !== null) {
+        // Mostrar los detalles del evento en el modal
+        setClickedDay(selectedDay);
+        setModalDayDetails({
+          title: `Día ${selectedDay} de ${getMonthFromDate(selectedDate)}`,
+          imagePath: eventDetails.data.imagePath || "url_default_imagen",
+          description:
+            eventDetails.data.description || "Descripción por defecto",
+        });
+        openModal();
 
-          // Agregar el día al estado y al localStorage solo si no está en la lista
-          if (!diasAbiertos.includes(selectedDay)) {
-            setDiasAbiertos((prevDiasAbiertos) => [
-              ...prevDiasAbiertos,
-              selectedDay,
-            ]);
-            localStorage.setItem(
-              "diasAbiertos",
-              JSON.stringify([...diasAbiertos, selectedDay])
-            );
-          }
-        } else {
-          // Manejar el caso donde no hay datos para el día
-          setToastMessage("Aún no está disponible la foto de hoy 😔");
-          setShowToast(true);
-          setTimeout(() => {
-            setToastMessage("");
-          }, 3000);
+        // Agregar el día al estado y al localStorage solo si no está en la lista
+        if (!diasAbiertos.includes(selectedDay)) {
+          setDiasAbiertos((prevDiasAbiertos) => [
+            ...prevDiasAbiertos,
+            selectedDay,
+          ]);
+          localStorage.setItem(
+            "diasAbiertos",
+            JSON.stringify([...diasAbiertos, selectedDay])
+          );
         }
-      } catch (error) {
-        // Manejar el error, por ejemplo, mostrar un mensaje de error en el modal
-        console.error("Error al obtener detalles del evento:", error);
+      } else {
+        // Manejar el caso donde no hay datos para el día
+        setToastMessage("Aún no está disponible la foto de hoy 😔");
+        setShowToast(true);
+        setTimeout(() => {
+          setToastMessage("");
+        }, 3000);
       }
-    } else {
-      // Manejar el caso donde el día no está permitido
-      setToastMessage("Todavía no se puede mostrar este día 😔");
-      setShowToast(true);
-      setTimeout(() => {
-        setToastMessage("");
-      }, 3000);
+    } catch (error) {
+      // Manejar el error, por ejemplo, mostrar un mensaje de error en el modal
+      console.error("Error al obtener detalles del evento:", error);
     }
   };
 
@@ -102,9 +89,10 @@ export default function Calendar(username) {
     return date.toLocaleString("default", { month: "long" });
   };
 
+  //TODO: arreglar calendario version desktop
   const renderDays = (start, end) => {
     const days = [];
-    const currentMonth = today.getMonth();
+    const currentMonth = today.getMonth() - 1;
     const currentYear = today.getFullYear();
 
     let startDay;
@@ -125,7 +113,7 @@ export default function Calendar(username) {
     }
 
     for (let i = startDay; i <= endDay; i++) {
-      const nextDay = new Date(currentYear, currentMonth, i);
+      const nextDay = new Date(currentYear, currentMonth, i); // Instancia correcta de fecha
 
       days.push(
         <div
@@ -155,8 +143,7 @@ export default function Calendar(username) {
     return (
       <div>
         <h3 className="text-lg font-semibold mb-2 text-center text-purple-900">
-          {getMonthFromDate(today).charAt(0).toUpperCase() +
-            getMonthFromDate(today).slice(1)}
+          Enero
         </h3>
         <div className="grid grid-cols-7 gap-2 sm:w-1/2 mx-auto ">
           {["Jue", "Vie", "Sáb", "Dom", "Lun", "Mar", "Mié"].map((dia) => (
@@ -172,14 +159,7 @@ export default function Calendar(username) {
         {showNextMonth && (
           <>
             <h3 className="text-lg font-semibold mb-2 text-center mt-4 text-purple-900">
-              {getMonthFromDate(
-                new Date(today.getFullYear(), today.getMonth() + 1)
-              )
-                .charAt(0)
-                .toUpperCase() +
-                getMonthFromDate(
-                  new Date(today.getFullYear(), today.getMonth() + 1)
-                ).slice(1)}
+              Febrero
             </h3>
             <div className="grid grid-cols-7 gap-2 sm:w-1/2 mx-auto mt-2">
               {["Jue", "Vie", "Sáb", "Dom", "Lun", "Mar", "Mié"].map((dia) => (
